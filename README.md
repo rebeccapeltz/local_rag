@@ -12,12 +12,12 @@ The app loads a FAISS index, retrieves relevant chunks, and answers user questio
 using a local LLM.
 
 ## Requirements
--Python 3.11
--LangChain v2 packages:
--langchain-core
--langchain-community
--langchain-openai
--faiss-cpu
--Docker Model Runner with:
--ai/embeddinggemma
--ai/llama3.2 (or your chosen LLM)
+- Python 3.11
+- LangChain v2 packages:
+- langchain-core
+- langchain-community
+- langchain-openai
+- faiss-cpu
+- Docker Model Runner with:
+- ai/embeddinggemma
+- ai/llama3.2 (or your chosen LLM)
