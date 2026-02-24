@@ -21,3 +21,16 @@ using a local LLM.
 - Docker Model Runner with:
 - ai/embeddinggemma
 - ai/llama3.2 (or your chosen LLM)
+
+## Docker Model Runner
+Two models are used one as the primary LLM and one to hold embeddings.
+
+- ai/llama3.2
+- ai/embeddinggemma
+
+## Data Flow
+
+1. Raw data (.pdf's) are located in ./data/raw
+2. Processed data (.md) is generated using ./scripts/convert.py
+3. Data is loaded into embeddings using scripts/ingest.py which creates ./faiss_index
+4. Prompt is created and serviced in ./app.py
