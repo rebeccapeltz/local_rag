@@ -64,7 +64,8 @@ vectorstore = FAISS.from_documents(
     documents=chunks,
     embedding=embeddings
 )
-vectorstore.save_local("faiss_index")
+# vectorstore.save_local("faiss_index")
+vectorstore.save_local(PROJECT_ROOT + "/faiss_index")
 
 print(">>> FINISHED CALLING from_documents()")
 print("Ingest complete!")

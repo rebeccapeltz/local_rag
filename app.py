@@ -48,9 +48,13 @@ llm = ChatOpenAI(
 )
 
 # 5. Retrieval configuration
+# retriever = vectorstore.as_retriever(
+#     search_type="similarity",
+#     search_kwargs={"k": 4, "score_threshold": 0.0}
+# )
 retriever = vectorstore.as_retriever(
-    search_type="similarity",
-    search_kwargs={"k": 4, "score_threshold": 0.2}
+    search_type="similarity_score_threshold",
+    search_kwargs={"k": 4, "score_threshold": 0.0}
 )
 
 def format_docs(docs):
@@ -82,6 +86,12 @@ Answer:
 """
 
 prompt = ChatPromptTemplate.from_template(template)
+
+print("\n--- DEBUG: RAG retriever output ---")
+rag_docs = retriever.invoke("What are my options for sick leave?")
+print("RAG retrieved:", len(rag_docs))
+for d in rag_docs:
+    print(d.page_content[:200])
 
 
 # 7. RAG chain
