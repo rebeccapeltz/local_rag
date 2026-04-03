@@ -8,7 +8,6 @@ from langchain_core.runnables import RunnableLambda
 
 # Optional: avoid OpenMP crash on macOS ARM
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
-
 # 1. Docker Model Runner endpoint
 DMR_URL = "http://localhost:12434/v1"
 API_KEY = "not-needed"
@@ -48,10 +47,7 @@ llm = ChatOpenAI(
 )
 
 # 5. Retrieval configuration
-# retriever = vectorstore.as_retriever(
-#     search_type="similarity",
-#     search_kwargs={"k": 4, "score_threshold": 0.0}
-# )
+
 retriever = vectorstore.as_retriever(
     search_type="similarity_score_threshold",
     search_kwargs={"k": 4, "score_threshold": 0.0}
@@ -61,17 +57,6 @@ def format_docs(docs):
     return "\n\n".join(doc.page_content for doc in docs)
 
 # 6. RAG prompt
-# template = """
-# You are a helpful assistant. Use ONLY the context below to answer the question.
-# If the context does not contain the answer, say: "I could not find that information."
-#
-# Context:
-# {context}
-#
-# Question: {question}
-#
-# Answer:
-# """
 
 template = """
 You are a helpful assistant. Use the context below to answer the question.
@@ -87,11 +72,11 @@ Answer:
 
 prompt = ChatPromptTemplate.from_template(template)
 
-print("\n--- DEBUG: RAG retriever output ---")
-rag_docs = retriever.invoke("What are my options for sick leave?")
-print("RAG retrieved:", len(rag_docs))
-for d in rag_docs:
-    print(d.page_content[:200])
+# print("\n--- DEBUG: RAG retriever output ---")
+# rag_docs = retriever.invoke("What are my options for sick leave?")
+# print("RAG retrieved:", len(rag_docs))
+# for d in rag_docs:
+#     print(d.page_content[:200])
 
 
 # 7. RAG chain
@@ -105,8 +90,15 @@ rag_chain = (
     | StrOutputParser()
 )
 
-# 8. Test query
+# 8. 
+# Test query 1
 
-query = "What are my options for sick leave?"
+query = "What recognition do I get on my first year anniversary?"
+print("\nQUERY:", query)
+print("ANSWER:", rag_chain.invoke(query))
+
+# Test query 2
+
+query = "What can I use sick leave for?"
 print("\nQUERY:", query)
 print("ANSWER:", rag_chain.invoke(query))
